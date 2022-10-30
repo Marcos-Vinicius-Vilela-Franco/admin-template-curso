@@ -1,6 +1,7 @@
 import Conteudo from "./Conteudo"
 import MenuLateral from "./MenuLateral"
-import Cabecalho from "./Titulo"
+import Cabecalho from "./Cabecalho"
+import useAppData from "../../data/hook/useAppData"
 
 interface LayourProps {
     titulo: string
@@ -8,15 +9,16 @@ interface LayourProps {
     children?: any
 }
 export default function Layout(props: LayourProps) {
+    const {tema}=useAppData()
     return (
-        <div className={`flex h-screen w-screen`}>
+        <div className={`${tema} flex h-screen w-screen `}>
             <MenuLateral />
-            <div className={` dark
+            <div className={` 
                 flex 
                 flex-col
                 bg-gray-300
-                dark:bg-gray-800
-                w-full 
+                dark:bg-gray-800        
+                w-full
                  p-7
              `}>
                 <Cabecalho titulo={props.titulo} subtitulo={props.subtitulo} />

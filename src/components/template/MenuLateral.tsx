@@ -1,14 +1,34 @@
 import MenuItem from "./MenuItem";
-import {HomeIcon,AdjustmentsIcon,BellIcon} from "../icons/index";
+import { HomeIcon, AdjustmentsIcon, BellIcon, LogoutIcon } from "../icons/index";
+import Logo from "./Logo";
 
-export default function MenuLateral(){
-    return(
-        <aside>
+export default function MenuLateral() {
+    return (
+        <aside className={`flex flex-col
+        bg-gray-200 text-gray-700
+         dark:bg-gray-900
+         `}>
+            <div className={`h-20 w-20
+            flex flex-col items-center justify-center
+            bg-gradient-to-r from-indigo-800 to-purple-800
+            `}>
+                <Logo />
+            </div>
+            <ul className={`flex-grow`}>
+                <MenuItem icone={HomeIcon} texto="Início" url='/' />
+                <MenuItem icone={AdjustmentsIcon} texto="Ajustes" url='/ajustes' />
+                <MenuItem icone={BellIcon} texto="Notificações" url='/notificacoes' />
+
+            </ul>
             <ul>
-                <MenuItem icone={HomeIcon} texto="Início" url='/'/>
-                <MenuItem icone={AdjustmentsIcon} texto="Ajustes" url='/ajustes'/>
-                <MenuItem icone={BellIcon} texto="Notificações" url='/notificacoes'/>
-
+                <MenuItem icone={LogoutIcon} texto="Sair"
+                    onClick={() => console.log('logout')}
+                    className={`
+                text-red-600 dark:text-red-400
+                hover:bg-red-400 hover:text-white
+                dark:hover:text-white
+                `}
+                />
             </ul>
         </aside>
     )
