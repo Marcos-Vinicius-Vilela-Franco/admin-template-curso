@@ -1,18 +1,18 @@
 import Link from "next/link"
 import useAuth from "../../data/hook/useAuth"
+import Image from 'next/image'
 
-interface AvatrUserProps{
-        className?:string
-}
 
-export default function AvatarUser(props:AvatrUserProps) {
+export default function AvatarUser() {
     const { usuario } = useAuth()
+    
     return (
         <Link href="/perfil">
-            <img src={usuario?.imagemUrl ?? '/images/avatar.svg'} 
-            alt="Avatar do usuário" 
-            className={`h-10 w-10 rounded-full cursor-pointer
-             ${props.className}`}/>
+            <Image  src={usuario?.imagemUrl ?? '/images/avatar.svg'} 
+            alt="Avatar do usuário"
+            width={40}
+            height={40} 
+            className={`rounded-full cursor-pointer`}/>
         </Link>
     )
 }

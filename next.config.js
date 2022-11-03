@@ -11,4 +11,7 @@ module.exports = {
     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN:"admintemplateprojeto.firebaseapp.com",
     NEXT_PUBLIC_FIREBASE_PROJECT_ID:"admintemplateprojeto",
   },
+  images:{
+    domains:['lh3.googleusercontent.com']
+  },
 }

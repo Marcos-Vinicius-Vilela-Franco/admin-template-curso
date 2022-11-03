@@ -2,6 +2,7 @@ import Conteudo from "./Conteudo"
 import MenuLateral from "./MenuLateral"
 import Cabecalho from "./Cabecalho"
 import useAppData from "../../data/hook/useAppData"
+import ForceAuth from "../auth/ForceAuth"
 
 interface LayourProps {
     titulo: string
@@ -9,11 +10,12 @@ interface LayourProps {
     children?: any
 }
 export default function Layout(props: LayourProps) {
-    const {tema}=useAppData()
+    const { tema } = useAppData()
     return (
-        <div className={`${tema} flex h-screen w-screen `}>
-            <MenuLateral />
-            <div className={` 
+        <ForceAuth>
+            <div className={`${tema} flex h-screen w-screen `}>
+                <MenuLateral />
+                <div className={` 
                 flex 
                 flex-col
                 bg-gray-300
@@ -21,11 +23,12 @@ export default function Layout(props: LayourProps) {
                 w-full
                  p-7
              `}>
-                <Cabecalho titulo={props.titulo} subtitulo={props.subtitulo} />
-                <Conteudo>
-                    {props.children}
-                </Conteudo>
+                    <Cabecalho titulo={props.titulo} subtitulo={props.subtitulo} />
+                    <Conteudo>
+                        {props.children}
+                    </Conteudo>
+                </div>
             </div>
-        </div>
+        </ForceAuth>
     )
 }

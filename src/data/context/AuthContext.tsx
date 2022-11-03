@@ -7,6 +7,8 @@ import Cookies from 'js-cookie'
 interface AuthContextProps {
     usuario?: Usuario
     carregando?: boolean
+    login?:(email:string,senha:string)=>Promise<void>
+    cadastrar?:(email:string,senha:string)=>Promise<void>
     loginGoogle?: () => Promise<void>
     logout?: () => Promise<void>
 }
@@ -62,12 +64,40 @@ export function AuthProvider(props) {
             const resp = await firebase.auth().signInWithPopup(
                 new firebase.auth.GoogleAuthProvider()
             )
-            configurarSessao(resp.user);
+           await configurarSessao(resp.user);
             Router.push('/');
         } finally {
             setCarregando(false);
         }
     }
+
+    async function login(email,senha) {
+        try {
+            setCarregando(true);
+            const resp = await firebase.auth().signInWithEmailAndPassword(email,senha)
+            
+          await  configurarSessao(resp.user);
+            Router.push('/');
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    async function cadastrar(email,senha) {
+        try {
+            setCarregando(true);
+            const resp = await firebase.auth()
+            .createUserWithEmailAndPassword(email,senha);
+            
+          await  configurarSessao(resp.user);
+            Router.push('/');
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+
+
     async function logout() {
         try {
             setCarregando(true);
@@ -81,7 +111,7 @@ export function AuthProvider(props) {
         if (Cookies.get('admin-template-auth')) {
             const cancelar = firebase.auth().onIdTokenChanged(configurarSessao);
             return () => cancelar();
-        }
+        } else { setCarregando(false) }
     }, [])
 
     return (
@@ -89,6 +119,8 @@ export function AuthProvider(props) {
             usuario,
             carregando,
             loginGoogle,
+            login,
+            cadastrar,
             logout
         }}>
             {props.children}
