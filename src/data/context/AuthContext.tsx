@@ -11,6 +11,7 @@ interface AuthContextProps {
     cadastrar?:(email:string,senha:string)=>Promise<void>
     loginGoogle?: () => Promise<void>
     logout?: () => Promise<void>
+    displayName?:string
 }
 
 const AuthContext = createContext<AuthContextProps>({})
@@ -37,11 +38,10 @@ function gerenciarCookie(logado: boolean) {
 
 }
 
-
-
 export function AuthProvider(props) {
     const [usuario, setUsuario] = useState<Usuario>(null);
     const [carregando, setCarregando] = useState(true);
+    const [displayName,setDisplayName]=useState('');
 
     async function configurarSessao(usuarioFirebase) {
         if (usuarioFirebase?.email) {
@@ -65,6 +65,7 @@ export function AuthProvider(props) {
                 new firebase.auth.GoogleAuthProvider()
             )
            await configurarSessao(resp.user);
+           setDisplayName(resp.user.displayName);
             Router.push('/');
         } finally {
             setCarregando(false);
@@ -96,8 +97,6 @@ export function AuthProvider(props) {
         }
     }
 
-
-
     async function logout() {
         try {
             setCarregando(true);
@@ -121,7 +120,9 @@ export function AuthProvider(props) {
             loginGoogle,
             login,
             cadastrar,
-            logout
+            logout,
+            displayName
+            
         }}>
             {props.children}
         </AuthContext.Provider>
